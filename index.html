@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>My First Web App</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6f8;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .app {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      width: 300px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    h1 {
+      text-align: center;
+      font-size: 20px;
+    }
+    input, button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+    }
+    ul {
+      padding-left: 20px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="app">
+  <h1>📋 Web App รายการงาน</h1>
+  <input type="text" id="task" placeholder="พิมพ์งานที่ต้องทำ">
+  <button onclick="addTask()">เพิ่มงาน</button>
+  <ul id="list"></ul>
+</div>
+
+<script>
+  function addTask() {
+    const taskInput = document.getElementById('task');
+    const list = document.getElementById('list');
+
+    if (taskInput.value === '') {
+      alert('กรุณาพิมพ์ข้อความ');
+      return;
+    }
+
+    const li = document.createElement('li');
+    li.textContent = taskInput.value;
+    list.appendChild(li);
+
+    taskInput.value = '';
+  }
+</script>
+
+</body>
+</html>
