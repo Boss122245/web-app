@@ -2,7 +2,7 @@
 <html lang="th">
 <head>
   <meta charset="UTF-8">
-  <title>My First Web App</title>
+  <title>My Web App (บันทึกข้อมูลได้)</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -16,7 +16,7 @@
       background: white;
       padding: 20px;
       border-radius: 10px;
-      width: 300px;
+      width: 320px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     }
     h1 {
@@ -31,33 +31,66 @@
     ul {
       padding-left: 20px;
     }
+    li {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 5px;
+    }
+    li button {
+      width: auto;
+      padding: 2px 6px;
+    }
   </style>
 </head>
 <body>
 
 <div class="app">
-  <h1>📋 Web App รายการงาน</h1>
-  <input type="text" id="task" placeholder="พิมพ์งานที่ต้องทำ">
-  <button onclick="addTask()">เพิ่มงาน</button>
+  <h1>📋 Web App บันทึกรายการ</h1>
+  <input type="text" id="task" placeholder="พิมพ์รายการ">
+  <button onclick="addTask()">เพิ่ม</button>
   <ul id="list"></ul>
 </div>
 
 <script>
+  let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+
+  function saveTasks() {
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+  }
+
+  function renderTasks() {
+    const list = document.getElementById('list');
+    list.innerHTML = '';
+
+    tasks.forEach((task, index) => {
+      const li = document.createElement('li');
+      li.innerHTML = `
+        <span>${task}</span>
+        <button onclick="deleteTask(${index})">❌</button>
+      `;
+      list.appendChild(li);
+    });
+  }
+
   function addTask() {
     const taskInput = document.getElementById('task');
-    const list = document.getElementById('list');
-
     if (taskInput.value === '') {
       alert('กรุณาพิมพ์ข้อความ');
       return;
     }
-
-    const li = document.createElement('li');
-    li.textContent = taskInput.value;
-    list.appendChild(li);
-
+    tasks.push(taskInput.value);
+    saveTasks();
+    renderTasks();
     taskInput.value = '';
   }
+
+  function deleteTask(index) {
+    tasks.splice(index, 1);
+    saveTasks();
+    renderTasks();
+  }
+
+  renderTasks();
 </script>
 
 </body>
